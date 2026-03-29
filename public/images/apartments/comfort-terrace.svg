@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8c28f"/>
+      <stop offset="1" stop-color="#d97853"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#sky)"/>
+  <rect y="470" width="1200" height="330" fill="#71906a"/>
+  <circle cx="960" cy="150" r="92" fill="#fff3dc" opacity=".88"/>
+  <rect x="155" y="240" width="890" height="285" rx="44" fill="#fff5eb" opacity=".9"/>
+  <rect x="225" y="320" width="280" height="150" rx="24" fill="#d89d71"/>
+  <rect x="560" y="286" width="260" height="184" rx="24" fill="#edd7bd"/>
+  <path d="M90 555h1020" stroke="#f7f0e6" stroke-width="22" stroke-linecap="round" opacity=".9"/>
+  <text x="120" y="705" fill="#fffaf3" font-family="Arial, sans-serif" font-size="66" font-weight="700">Comfort Terrace</text>
+</svg>

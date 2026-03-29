@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "title": "Rozacrimef",
+    "subtitle": "Гостевой дом в Золотом Крыму — 1 км от моря",
+    "phone": "+7 (977) 714-79-08",
+    "whatsapp": "79777147908",
+    "telegram": ""
+  },
+  "apartments": [
+    {
+      "name": "Апартаменты «Комфорт»",
+      "description": "Отдельный этаж, своя терраса со столиком и подвесным креслом. До 3 гостей + возможно дополнительное место.",
+      "price": "4500",
+      "photos": [
+        "/images/apartments/comfort-terrace.svg",
+        "/images/apartments/comfort-room.svg"
+      ],
+      "amenities": [
+        "Кондиционер",
+        "Wi-Fi",
+        "Своя терраса",
+        "Холодильник",
+        "Телевизор"
+      ],
+      "area": "25 м²",
+      "guests": "до 3 гостей"
+    },
+    {
+      "name": "Апартаменты «Семейные»",
+      "description": "Кровать King-Size, раскладной диван, терраса. Удобно для семей с детьми — есть сидячая ванна.",
+      "price": "4500",
+      "photos": [
+        "/images/apartments/family-room.svg",
+        "/images/apartments/family-bath.svg"
+      ],
+      "amenities": [
+        "Кондиционер",
+        "Wi-Fi",
+        "Терраса",
+        "King-Size кровать",
+        "Сидячая ванна",
+        "Телевизор"
+      ],
+      "area": "25 м²",
+      "guests": "до 4 гостей"
+    },
+    {
+      "name": "Дом с барбекю",
+      "description": "Двухэтажный дом с зоной барбекю. Два апартамента по 25 м² — каждый со своим входом и террасой.",
+      "price": "9000",
+      "photos": [
+        "/images/apartments/barbecue-house.svg",
+        "/images/apartments/barbecue-yard.svg"
+      ],
+      "amenities": [
+        "Кондиционер",
+        "Wi-Fi",
+        "Барбекю",
+        "Своя кухня",
+        "Отдельный вход",
+        "Терраса"
+      ],
+      "area": "50 м²",
+      "guests": "до 6 гостей"
+    }
+  ],
+  "amenities": ["Wi-Fi", "Парковка", "Кондиционер", "Терраса", "Барбекю", "Своя кухня"],
+  "address": "Коттеджный посёлок Золотой Крым, Скифская ул., 172",
+  "yandex_org_id": "29532193659",
+  "promo": {
+    "active": false,
+    "text": ""
+  }
+}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="tile" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#eef2ef"/>
+      <stop offset="1" stop-color="#bfcfc4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#tile)"/>
+  <rect y="565" width="1200" height="235" fill="#d7a26f"/>
+  <rect x="172" y="162" width="856" height="426" rx="48" fill="#fffefc" opacity=".94"/>
+  <rect x="268" y="350" width="630" height="170" rx="72" fill="#f4e6d6"/>
+  <rect x="312" y="252" width="126" height="116" rx="18" fill="#86a17a"/>
+  <rect x="825" y="236" width="110" height="220" rx="24" fill="#ecd3bb"/>
+  <path d="M470 330c0-42 32-74 74-74h98" stroke="#d97853" stroke-width="24" stroke-linecap="round"/>
+  <text x="120" y="705" fill="#fffaf3" font-family="Arial, sans-serif" font-size="66" font-weight="700">Family Bath</text>
+</svg>
