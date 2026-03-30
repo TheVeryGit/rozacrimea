@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  compress: true,
+  poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2678400,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "inline",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+};
 
 export default nextConfig;

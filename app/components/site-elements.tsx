@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import Image from "next/image";
 
 function getAmenityIcon(amenity: string) {
   const normalizedAmenity = amenity.toLowerCase();
@@ -152,28 +153,35 @@ export function PhotoBlock({
   label,
   accentColor,
   src,
+  alt,
   className,
 }: {
   label: string;
   accentColor: string;
   src?: string;
+  alt: string;
   className?: string;
 }) {
-  const backgroundStyles: CSSProperties = src
-    ? {
-        backgroundImage: `linear-gradient(180deg, rgba(45, 35, 27, 0.1) 0%, rgba(45, 35, 27, 0.5) 100%), url("${src}")`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }
-    : {
-        backgroundImage: `linear-gradient(135deg, ${accentColor} 0%, rgba(255, 248, 239, 0.95) 48%, rgba(110, 138, 96, 0.66) 100%)`,
-      };
+  const backgroundStyles: CSSProperties = {
+    backgroundImage: `linear-gradient(135deg, ${accentColor} 0%, rgba(255, 248, 239, 0.95) 48%, rgba(110, 138, 96, 0.66) 100%)`,
+  };
 
   return (
     <div
       className={`relative overflow-hidden rounded-[28px] border border-white/60 bg-[var(--surface-strong)] ${className ?? ""}`}
-      style={backgroundStyles}
+      style={!src ? backgroundStyles : undefined}
     >
+      {src ? (
+        <Image
+          fill
+          src={src}
+          alt={alt}
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy"
+        />
+      ) : null}
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(45,35,27,0.1)_0%,rgba(45,35,27,0.5)_100%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.42),_transparent_32%)]" />
       <div className="absolute bottom-4 left-4 rounded-full bg-white/82 px-4 py-2 text-xs font-medium uppercase tracking-[0.22em] text-[var(--accent-deep)] backdrop-blur">
         {label}
@@ -203,15 +211,15 @@ export function DetailStat({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-[28px] border border-[var(--border)] bg-white/88 p-5 shadow-[0_18px_44px_rgba(118,84,63,0.09)] backdrop-blur">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[rgba(201,111,77,0.12)] text-[var(--accent-deep)]">
+    <div className="flex items-center gap-3 rounded-[24px] border border-[var(--border)] bg-white/88 p-4 shadow-[0_18px_44px_rgba(118,84,63,0.09)] backdrop-blur sm:gap-4 sm:rounded-[28px] sm:p-5">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[rgba(201,111,77,0.12)] text-[var(--accent-deep)] sm:h-12 sm:w-12">
         <span className="h-6 w-6">{icon}</span>
       </div>
       <div className="space-y-1">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:rgba(45,35,27,0.55)]">
           {label}
         </p>
-        <p className="text-lg font-semibold text-[var(--foreground)]">{value}</p>
+        <p className="text-base font-semibold text-[var(--foreground)] sm:text-lg">{value}</p>
       </div>
     </div>
   );

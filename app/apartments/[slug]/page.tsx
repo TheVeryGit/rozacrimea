@@ -24,6 +24,7 @@ type ApartmentPageProps = {
 };
 
 export const dynamicParams = false;
+export const dynamic = "force-static";
 
 export function generateStaticParams() {
   return siteContent.apartments.map((apartment) => ({
@@ -89,14 +90,16 @@ export default function ApartmentPage({ params }: ApartmentPageProps) {
   }));
 
   return (
-    <main className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+    <main className="px-4 py-4 sm:px-6 sm:py-10 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-10">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/88 px-5 py-3 text-sm font-semibold text-[var(--accent-deep)] shadow-[0_16px_40px_rgba(118,84,63,0.08)] backdrop-blur transition-transform duration-200 hover:-translate-y-0.5"
-        >
-          ← Назад
-        </Link>
+        <div className="sticky top-3 z-40 w-fit sm:top-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/92 px-4 py-3 text-sm font-semibold text-[var(--accent-deep)] shadow-[0_16px_40px_rgba(118,84,63,0.08)] backdrop-blur transition-transform duration-200 hover:-translate-y-0.5 sm:px-5"
+          >
+            ← Назад
+          </Link>
+        </div>
 
         <ApartmentGallery items={galleryItems} title={apartment.name} />
 
@@ -105,12 +108,12 @@ export default function ApartmentPage({ params }: ApartmentPageProps) {
             <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[var(--accent-deep)]">
               Апартаменты
             </p>
-            <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-[var(--foreground)] sm:text-5xl">
+            <h1 className="max-w-4xl text-3xl font-semibold tracking-tight text-[var(--foreground)] sm:text-5xl">
               {apartment.name}
             </h1>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
             <DetailStat icon={<AreaIcon />} label="Площадь" value={apartment.area} />
             <DetailStat
               icon={<GuestsIcon />}
@@ -126,7 +129,7 @@ export default function ApartmentPage({ params }: ApartmentPageProps) {
 
           <div className="max-w-3xl space-y-4">
             <SectionHeading eyebrow="Описание" title="Пространство для спокойного отдыха" />
-            <p className="text-lg leading-8 text-[color:rgba(45,35,27,0.75)]">
+            <p className="text-base leading-7 text-[color:rgba(45,35,27,0.75)] sm:text-lg sm:leading-8">
               {apartment.description}
             </p>
           </div>

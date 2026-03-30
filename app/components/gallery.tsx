@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
+import Image from "next/image";
 
 export type GalleryItem = {
   id: string;
@@ -10,18 +12,35 @@ export type GalleryItem = {
   accent: string;
 };
 
-function previewStyles(item: GalleryItem) {
-  if (item.src) {
-    return {
-      backgroundImage: `linear-gradient(180deg, rgba(45, 35, 27, 0.08) 0%, rgba(45, 35, 27, 0.52) 100%), url("${item.src}")`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    };
-  }
-
+function createFallbackStyles(item: GalleryItem): CSSProperties {
   return {
     backgroundImage: `linear-gradient(135deg, ${item.accent} 0%, rgba(255, 249, 242, 0.98) 52%, rgba(110, 138, 96, 0.64) 100%)`,
   };
+}
+
+function GalleryImage({
+  item,
+  alt,
+  sizes,
+}: {
+  item: GalleryItem;
+  alt: string;
+  sizes: string;
+}) {
+  if (!item.src) {
+    return <div className="absolute inset-0" style={createFallbackStyles(item)} />;
+  }
+
+  return (
+    <Image
+      fill
+      src={item.src}
+      alt={alt}
+      className="object-cover"
+      sizes={sizes}
+      loading="lazy"
+    />
+  );
 }
 
 export function Gallery({ items }: { items: GalleryItem[] }) {
@@ -64,7 +83,16 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
             }`}
             aria-label={`Открыть фото: ${item.title}`}
           >
-            <div className="absolute inset-0" style={previewStyles(item)} />
+            <GalleryImage
+              item={item}
+              alt={item.title}
+              sizes={
+                index % 5 === 0
+                  ? "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 50vw"
+                  : "(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+              }
+            />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(45,35,27,0.08)_0%,rgba(45,35,27,0.52)_100%)]" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.3),_transparent_28%)]" />
             <div className="absolute bottom-0 left-0 right-0 bg-[linear-gradient(180deg,rgba(45,35,27,0)_0%,rgba(45,35,27,0.72)_100%)] px-5 pb-5 pt-16 text-white">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/75">
@@ -95,7 +123,7 @@ export function Gallery({ items }: { items: GalleryItem[] }) {
             >
               ×
             </button>
-            <div className="absolute inset-0" style={previewStyles(activeItem)} />
+            <GalleryImage item={activeItem} alt={activeItem.title} sizes="100vw" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.2),_transparent_24%),linear-gradient(180deg,rgba(45,35,27,0.02)_0%,rgba(45,35,27,0.68)_100%)]" />
             <div className="relative mt-auto w-full p-6 text-white sm:p-8 lg:p-10">
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/72">

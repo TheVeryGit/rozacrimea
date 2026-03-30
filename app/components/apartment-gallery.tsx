@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import type { CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { CSSProperties, TouchEvent } from "react";
+import Image from "next/image";
 
 export type ApartmentGalleryItem = {
   src?: string;
@@ -9,18 +10,35 @@ export type ApartmentGalleryItem = {
   accent: string;
 };
 
-function createPreviewStyles(item: ApartmentGalleryItem): CSSProperties {
-  if (item.src) {
-    return {
-      backgroundImage: `linear-gradient(180deg, rgba(45, 35, 27, 0.08) 0%, rgba(45, 35, 27, 0.54) 100%), url("${item.src}")`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    };
-  }
-
+function createFallbackStyles(item: ApartmentGalleryItem): CSSProperties {
   return {
     backgroundImage: `linear-gradient(135deg, ${item.accent} 0%, rgba(255, 249, 242, 0.98) 52%, rgba(110, 138, 96, 0.64) 100%)`,
   };
+}
+
+function GalleryImage({
+  item,
+  alt,
+  sizes,
+}: {
+  item: ApartmentGalleryItem;
+  alt: string;
+  sizes: string;
+}) {
+  if (!item.src) {
+    return <div className="absolute inset-0" style={createFallbackStyles(item)} />;
+  }
+
+  return (
+    <Image
+      fill
+      src={item.src}
+      alt={alt}
+      className="object-cover"
+      sizes={sizes}
+      loading="lazy"
+    />
+  );
 }
 
 function ArrowIcon({ direction }: { direction: "left" | "right" }) {
@@ -54,6 +72,9 @@ export function ApartmentGallery({
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+  const lastSwipeAt = useRef(0);
   const activeItem = safeItems[activeIndex] ?? safeItems[0];
   const canSlide = safeItems.length > 1;
 
@@ -67,6 +88,47 @@ export function ApartmentGallery({
     setActiveIndex((currentIndex) =>
       currentIndex === safeItems.length - 1 ? 0 : currentIndex + 1,
     );
+  };
+
+  const resetTouchState = () => {
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    if (!canSlide) {
+      return;
+    }
+
+    const touch = event.touches[0];
+
+    touchStartX.current = touch.clientX;
+    touchStartY.current = touch.clientY;
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    if (!canSlide || touchStartX.current === null || touchStartY.current === null) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX.current;
+    const deltaY = touch.clientY - touchStartY.current;
+
+    resetTouchState();
+
+    if (Math.abs(deltaX) <= Math.abs(deltaY) || Math.abs(deltaX) < 48) {
+      return;
+    }
+
+    lastSwipeAt.current = Date.now();
+
+    if (deltaX < 0) {
+      goToNext();
+      return;
+    }
+
+    goToPrevious();
   };
 
   useEffect(() => {
@@ -106,14 +168,25 @@ export function ApartmentGallery({
   return (
     <>
       <div className="space-y-4">
-        <div className="relative overflow-hidden rounded-[36px] border border-[var(--border)] bg-white shadow-[0_24px_70px_rgba(99,69,48,0.12)]">
+        <div
+          className="relative overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[0_24px_70px_rgba(99,69,48,0.12)] touch-pan-y sm:rounded-[36px]"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <button
             type="button"
-            onClick={() => setIsFullscreen(true)}
+            onClick={() => {
+              if (Date.now() - lastSwipeAt.current < 250) {
+                return;
+              }
+
+              setIsFullscreen(true);
+            }}
             className="absolute inset-0 z-10"
             aria-label={`Открыть галерею ${title} на весь экран`}
           />
-          <div className="absolute inset-0" style={createPreviewStyles(activeItem)} />
+          <GalleryImage item={activeItem} alt={activeItem.title} sizes="100vw" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(45,35,27,0.08)_0%,rgba(45,35,27,0.54)_100%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.28),_transparent_26%)]" />
 
           {canSlide ? (
@@ -121,7 +194,7 @@ export function ApartmentGallery({
               <button
                 type="button"
                 onClick={goToPrevious}
-                className="absolute left-4 top-1/2 z-20 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/84 text-[var(--accent-deep)] shadow-[0_10px_30px_rgba(45,35,27,0.14)] transition-transform duration-200 hover:-translate-y-[52%]"
+                className="absolute left-3 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/84 text-[var(--accent-deep)] shadow-[0_10px_30px_rgba(45,35,27,0.14)] transition-transform duration-200 hover:-translate-y-[52%] sm:left-4 sm:h-12 sm:w-12"
                 aria-label="Предыдущее фото"
               >
                 <span className="h-5 w-5">
@@ -131,7 +204,7 @@ export function ApartmentGallery({
               <button
                 type="button"
                 onClick={goToNext}
-                className="absolute right-4 top-1/2 z-20 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/84 text-[var(--accent-deep)] shadow-[0_10px_30px_rgba(45,35,27,0.14)] transition-transform duration-200 hover:-translate-y-[52%]"
+                className="absolute right-3 top-1/2 z-20 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/84 text-[var(--accent-deep)] shadow-[0_10px_30px_rgba(45,35,27,0.14)] transition-transform duration-200 hover:-translate-y-[52%] sm:right-4 sm:h-12 sm:w-12"
                 aria-label="Следующее фото"
               >
                 <span className="h-5 w-5">
@@ -141,12 +214,12 @@ export function ApartmentGallery({
             </>
           ) : null}
 
-          <div className="relative flex min-h-[340px] items-end p-6 sm:min-h-[460px] sm:p-8 lg:min-h-[560px]">
+          <div className="relative flex min-h-[280px] items-end p-4 sm:min-h-[460px] sm:p-8 lg:min-h-[560px]">
             <div className="space-y-3 text-white">
-              <div className="inline-flex rounded-full border border-white/20 bg-white/12 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] backdrop-blur">
+              <div className="inline-flex rounded-full border border-white/20 bg-white/12 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.26em] backdrop-blur sm:text-xs">
                 {activeIndex + 1} / {safeItems.length}
               </div>
-              <p className="max-w-xl text-lg font-semibold sm:text-2xl">{title}</p>
+              <p className="max-w-xl text-base font-semibold sm:text-2xl">{title}</p>
             </div>
           </div>
         </div>
@@ -165,7 +238,14 @@ export function ApartmentGallery({
                 }`}
                 aria-label={`Показать фото ${index + 1}`}
               >
-                <div className="aspect-[4/3]" style={createPreviewStyles(item)} />
+                <div className="relative aspect-[4/3]">
+                  <GalleryImage
+                    item={item}
+                    alt={item.title}
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(45,35,27,0.04)_0%,rgba(45,35,27,0.26)_100%)]" />
               </button>
             ))}
           </div>
@@ -180,8 +260,10 @@ export function ApartmentGallery({
           onClick={() => setIsFullscreen(false)}
         >
           <div
-            className="relative h-full max-h-[92vh] w-full max-w-6xl overflow-hidden rounded-[36px] border border-white/18 bg-[#2b211b] shadow-[0_32px_120px_rgba(0,0,0,0.35)]"
+            className="relative h-full max-h-[92vh] w-full max-w-6xl overflow-hidden rounded-[28px] border border-white/18 bg-[#2b211b] shadow-[0_32px_120px_rgba(0,0,0,0.35)] touch-pan-y sm:rounded-[36px]"
             onClick={(event) => event.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
             <button
               type="button"
@@ -197,7 +279,7 @@ export function ApartmentGallery({
                 <button
                   type="button"
                   onClick={goToPrevious}
-                  className="absolute left-4 top-1/2 z-30 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/16 text-white backdrop-blur transition-colors duration-200 hover:bg-white/24"
+                  className="absolute left-3 top-1/2 z-30 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/16 text-white backdrop-blur transition-colors duration-200 hover:bg-white/24 sm:left-4 sm:h-12 sm:w-12"
                   aria-label="Предыдущее фото"
                 >
                   <span className="h-5 w-5">
@@ -207,7 +289,7 @@ export function ApartmentGallery({
                 <button
                   type="button"
                   onClick={goToNext}
-                  className="absolute right-4 top-1/2 z-30 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/16 text-white backdrop-blur transition-colors duration-200 hover:bg-white/24"
+                  className="absolute right-3 top-1/2 z-30 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/16 text-white backdrop-blur transition-colors duration-200 hover:bg-white/24 sm:right-4 sm:h-12 sm:w-12"
                   aria-label="Следующее фото"
                 >
                   <span className="h-5 w-5">
@@ -217,17 +299,17 @@ export function ApartmentGallery({
               </>
             ) : null}
 
-            <div className="absolute inset-0" style={createPreviewStyles(activeItem)} />
+            <GalleryImage item={activeItem} alt={activeItem.title} sizes="100vw" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_24%),linear-gradient(180deg,rgba(45,35,27,0.02)_0%,rgba(45,35,27,0.66)_100%)]" />
-            <div className="relative flex h-full items-end p-6 text-white sm:p-8 lg:p-10">
+            <div className="relative flex h-full items-end p-5 text-white sm:p-8 lg:p-10">
               <div className="space-y-3">
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/72">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/72 sm:text-sm">
                   Полноэкранный просмотр
                 </p>
-                <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                <h3 className="text-2xl font-semibold tracking-tight sm:text-4xl">
                   {title}
                 </h3>
-                <p className="text-base text-white/78">
+                <p className="text-sm text-white/78 sm:text-base">
                   Фото {activeIndex + 1} из {safeItems.length}
                 </p>
               </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Gallery, type GalleryItem } from "@/app/components/gallery";
+import { StickyNav } from "@/app/components/sticky-nav";
 import {
   AmenityCard,
   PhotoBlock,
@@ -34,7 +35,7 @@ export default function Home() {
   );
 
   return (
-    <main className="overflow-x-hidden">
+    <main id="top" className="overflow-x-hidden">
       {siteContent.promo.active ? (
         <section className="border-b border-[rgba(156,82,55,0.16)] bg-[linear-gradient(90deg,#bf5f3f_0%,#d37d58_50%,#e2a161_100%)] px-4 py-3 text-sm font-medium text-[#fff8f0] sm:text-base">
           <div className="mx-auto flex max-w-6xl items-center justify-center text-center">
@@ -42,6 +43,8 @@ export default function Home() {
           </div>
         </section>
       ) : null}
+
+      <StickyNav />
 
       <section className="relative isolate min-h-[100svh] overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,28,22,0.24),rgba(38,28,22,0.56))]" />
@@ -85,7 +88,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
+      <section
+        id="apartments"
+        className="scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
+      >
         <div className="mx-auto max-w-6xl space-y-10">
           <SectionHeading
             eyebrow="Апартаменты"
@@ -114,6 +120,7 @@ export default function Home() {
                     label={apartment.area}
                     accentColor={warmAccents[index % warmAccents.length]}
                     src={apartment.photos[0]}
+                    alt={apartment.name}
                     className="m-4 h-64"
                   />
 
@@ -167,7 +174,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[rgba(255,250,244,0.88)] px-4 py-20 sm:px-6 lg:px-8">
+      <section
+        id="gallery"
+        className="scroll-mt-24 bg-[rgba(255,250,244,0.88)] px-4 py-20 sm:px-6 lg:px-8"
+      >
         <div className="mx-auto max-w-6xl space-y-10">
           <SectionHeading
             eyebrow="Галерея"
@@ -178,7 +188,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
+      <section
+        id="amenities"
+        className="scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
+      >
         <div className="mx-auto max-w-6xl space-y-10">
           <SectionHeading
             eyebrow="Удобства"
@@ -244,7 +257,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[rgba(255,250,244,0.88)] px-4 py-20 sm:px-6 lg:px-8">
+      <section
+        id="contacts"
+        className="scroll-mt-24 bg-[rgba(255,250,244,0.88)] px-4 py-20 sm:px-6 lg:px-8"
+      >
         <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-8">
             <SectionHeading
