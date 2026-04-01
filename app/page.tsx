@@ -22,6 +22,7 @@ export default function Home() {
   const whatsappHref = createWhatsAppLink(siteContent.hero.whatsapp);
   const telegram = siteContent.hero.telegram.trim();
   const telegramHref = telegram ? createTelegramLink(telegram) : null;
+  const heroImage = siteContent.hero.image?.trim() || "/images/hero.jpg";
 
   const galleryItems: GalleryItem[] = siteContent.apartments.flatMap(
     (apartment, apartmentIndex) =>
@@ -49,7 +50,7 @@ export default function Home() {
       <section className="relative isolate min-h-[100svh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/images/hero.jpg')" }}
+          style={{ backgroundImage: `url('${heroImage}')` }}
         />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,28,22,0.24),rgba(38,28,22,0.64))]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(233,164,120,0.28),_transparent_32%),linear-gradient(135deg,rgba(200,110,76,0.22)_0%,rgba(241,196,151,0.12)_44%,rgba(117,147,109,0.22)_100%)]" />

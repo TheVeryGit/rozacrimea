@@ -22,6 +22,7 @@ export type SiteContent = {
     phone: string;
     whatsapp: string;
     telegram: string;
+    image?: string;
   };
   apartments: Apartment[];
   amenities: string[];
