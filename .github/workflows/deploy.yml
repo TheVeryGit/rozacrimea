@@ -27,6 +27,11 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Debug
+        run: ls -la && cat next.config.mjs
 
       - name: Verify build output
         run: ls -la out/
