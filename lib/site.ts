@@ -10,6 +10,11 @@ export type Apartment = {
   guests: string;
 };
 
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
 export type SiteContent = {
   hero: {
     title: string;
@@ -22,6 +27,10 @@ export type SiteContent = {
   amenities: string[];
   address: string;
   yandex_org_id: string;
+  faq: {
+    before_checkin: FaqItem[];
+    after_checkin: FaqItem[];
+  };
   promo: {
     active: boolean;
     text: string;

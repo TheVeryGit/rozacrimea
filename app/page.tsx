@@ -303,14 +303,22 @@ export default function Home() {
                 Быстро подскажем по свободным датам, стоимости и условиям проживания.
               </p>
               <div className="flex flex-col gap-3">
-                <a
-                  className="inline-flex min-h-14 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-base font-semibold text-[#fffaf6] transition-colors duration-200 hover:bg-[var(--accent-deep)]"
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  WhatsApp
-                </a>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <a
+                    className="inline-flex min-h-14 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-base font-semibold text-[#fffaf6] transition-colors duration-200 hover:bg-[var(--accent-deep)] sm:flex-1"
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    WhatsApp
+                  </a>
+                  <Link
+                    className="inline-flex min-h-14 items-center justify-center rounded-full border border-[rgba(201,111,77,0.26)] bg-white/70 px-6 text-base font-semibold text-[var(--accent-deep)] transition-colors duration-200 hover:bg-white sm:flex-1"
+                    href="/faq"
+                  >
+                    Частые вопросы
+                  </Link>
+                </div>
                 {telegramHref ? (
                   <a
                     className="inline-flex min-h-14 items-center justify-center rounded-full border border-[rgba(110,138,96,0.3)] bg-[rgba(110,138,96,0.12)] px-6 text-base font-semibold text-[var(--green)] transition-colors duration-200 hover:bg-[rgba(110,138,96,0.18)]"
