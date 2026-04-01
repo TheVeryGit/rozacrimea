@@ -47,12 +47,13 @@ export default function Home() {
       <StickyNav />
 
       <section className="relative isolate min-h-[100svh] overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,28,22,0.24),rgba(38,28,22,0.56))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(233,164,120,0.64),_transparent_32%),linear-gradient(135deg,#c86e4c_0%,#f1c497_44%,#75936d_100%)]" />
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/images/hero.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(38,28,22,0.24),rgba(38,28,22,0.64))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(233,164,120,0.28),_transparent_32%),linear-gradient(135deg,rgba(200,110,76,0.22)_0%,rgba(241,196,151,0.12)_44%,rgba(117,147,109,0.22)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(255,255,255,0.28),_transparent_24%)]" />
-        <div className="absolute bottom-8 right-4 z-10 rounded-full border border-white/20 bg-white/12 px-4 py-2 text-xs font-medium uppercase tracking-[0.28em] text-white/90 backdrop-blur sm:bottom-10 sm:right-10">
-          Фоновое фото-заглушка
-        </div>
 
         <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl items-center px-4 py-14 sm:px-6 lg:px-8">
           <div className="max-w-3xl rounded-[32px] border border-white/20 bg-white/12 p-7 text-white shadow-[0_24px_80px_rgba(46,29,20,0.2)] backdrop-blur-md sm:p-10 lg:p-12">
