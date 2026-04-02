@@ -30,63 +30,70 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function StickyNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const topOffsetClass = siteContent.promo.active ? "top-[52px] sm:top-[56px]" : "top-0";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[rgba(229,209,190,0.72)] bg-[rgba(255,249,244,0.82)] backdrop-blur-xl">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="flex min-h-16 items-center justify-between gap-4 py-2">
-          <Link
-            href="/"
-            className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--accent-deep)]"
-          >
-            {siteContent.hero.title}
-          </Link>
+    <>
+      <header
+        className={`fixed inset-x-0 z-50 border-b border-[rgba(229,209,190,0.72)] bg-[rgba(255,249,244,0.82)] backdrop-blur-xl ${topOffsetClass}`}
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex min-h-16 items-center justify-between gap-4 py-2">
+            <Link
+              href="/"
+              className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--accent-deep)]"
+            >
+              {siteContent.hero.title}
+            </Link>
 
-          <nav className="hidden items-center gap-2 md:flex" aria-label="Основная навигация">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-full px-4 py-2 text-sm font-medium text-[var(--foreground)] transition-colors duration-200 hover:bg-white hover:text-[var(--accent-deep)]"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+            <nav className="hidden items-center gap-2 md:flex" aria-label="Основная навигация">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-[var(--foreground)] transition-colors duration-200 hover:bg-white hover:text-[var(--accent-deep)]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
 
-          <button
-            type="button"
-            onClick={() => setIsOpen((current) => !current)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-white/88 text-[var(--accent-deep)] shadow-[0_12px_30px_rgba(118,84,63,0.08)] md:hidden"
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
-          >
-            <span className="h-5 w-5">
-              <MenuIcon open={isOpen} />
-            </span>
-          </button>
+            <button
+              type="button"
+              onClick={() => setIsOpen((current) => !current)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--border)] bg-white/88 text-[var(--accent-deep)] shadow-[0_12px_30px_rgba(118,84,63,0.08)] md:hidden"
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+            >
+              <span className="h-5 w-5">
+                <MenuIcon open={isOpen} />
+              </span>
+            </button>
+          </div>
+
+          {isOpen ? (
+            <nav
+              id="mobile-menu"
+              className="grid gap-2 border-t border-[rgba(229,209,190,0.72)] py-3 md:hidden"
+              aria-label="Мобильная навигация"
+            >
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(118,84,63,0.06)] transition-colors duration-200 hover:text-[var(--accent-deep)]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          ) : null}
         </div>
+      </header>
 
-        {isOpen ? (
-          <nav
-            id="mobile-menu"
-            className="grid gap-2 border-t border-[rgba(229,209,190,0.72)] py-3 md:hidden"
-            aria-label="Мобильная навигация"
-          >
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(118,84,63,0.06)] transition-colors duration-200 hover:text-[var(--accent-deep)]"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        ) : null}
-      </div>
-    </header>
+      <div className={siteContent.promo.active ? "h-[132px] sm:h-[136px]" : "h-20"} aria-hidden="true" />
+    </>
   );
 }
