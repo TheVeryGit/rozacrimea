@@ -1,5 +1,11 @@
 import Link from "next/link";
 import { Gallery, type GalleryItem } from "@/app/components/gallery";
+import {
+  AwardIcon,
+  PhoneIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+} from "@/app/components/site-icons";
 import { StickyNav } from "@/app/components/sticky-nav";
 import {
   AmenityCard,
@@ -23,6 +29,7 @@ export default function Home() {
   const telegram = siteContent.hero.telegram.trim();
   const telegramHref = telegram ? createTelegramLink(telegram) : null;
   const heroImage = siteContent.hero.image?.trim() || "/images/hero.jpg";
+  const heroHighlights = ["1 км до моря", "Бесплатная парковка", "Тихий посёлок"];
 
   const galleryItems: GalleryItem[] = siteContent.apartments.flatMap(
     (apartment, apartmentIndex) =>
@@ -70,19 +77,47 @@ export default function Home() {
             <p className="mt-8 inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-sm text-white/90">
               {siteContent.address}
             </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {heroHighlights.map((highlight) => (
+                <span
+                  key={highlight}
+                  className="inline-flex items-center rounded-full border border-white/18 bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur"
+                >
+                  {highlight}
+                </span>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-3 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-white/80 backdrop-blur">
+                <AwardIcon className="h-4 w-4" />
+                Яндекс
+              </span>
+              <div className="inline-flex overflow-hidden rounded-[24px] border border-white/18 bg-white/14 p-2 shadow-[0_18px_48px_rgba(25,18,14,0.2)] backdrop-blur-md">
+                <iframe
+                  src="https://yandex.ru/sprav/widget/rating-badge/29532193659?type=award"
+                  width="150"
+                  height="50"
+                  frameBorder="0"
+                  loading="lazy"
+                  title="Награда Яндекс Хорошее место"
+                />
+              </div>
+            </div>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <a
-                className="inline-flex min-h-14 items-center justify-center rounded-full bg-white px-7 text-base font-semibold text-[var(--accent-deep)] transition-transform duration-200 hover:-translate-y-0.5"
+                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-white px-7 text-base font-semibold text-[var(--accent-deep)] transition-transform duration-200 hover:-translate-y-0.5"
                 href={whatsappHref}
                 target="_blank"
                 rel="noreferrer"
               >
+                <WhatsAppIcon className="h-5 w-5" />
                 WhatsApp
               </a>
               <a
-                className="inline-flex min-h-14 items-center justify-center rounded-full border border-white/35 bg-white/10 px-7 text-base font-semibold text-white transition-colors duration-200 hover:bg-white/16"
+                className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-white/35 bg-white/10 px-7 text-base font-semibold text-white transition-colors duration-200 hover:bg-white/16"
                 href={phoneHref}
               >
+                <PhoneIcon className="h-5 w-5" />
                 Позвонить
               </a>
             </div>
@@ -307,11 +342,12 @@ export default function Home() {
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <a
-                    className="inline-flex min-h-14 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-base font-semibold text-[#fffaf6] transition-colors duration-200 hover:bg-[var(--accent-deep)] sm:flex-1"
+                    className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[var(--accent)] px-6 text-base font-semibold text-[#fffaf6] transition-colors duration-200 hover:bg-[var(--accent-deep)] sm:flex-1"
                     href={whatsappHref}
                     target="_blank"
                     rel="noreferrer"
                   >
+                    <WhatsAppIcon className="h-5 w-5" />
                     WhatsApp
                   </a>
                   <Link
@@ -323,11 +359,12 @@ export default function Home() {
                 </div>
                 {telegramHref ? (
                   <a
-                    className="inline-flex min-h-14 items-center justify-center rounded-full border border-[rgba(110,138,96,0.3)] bg-[rgba(110,138,96,0.12)] px-6 text-base font-semibold text-[var(--green)] transition-colors duration-200 hover:bg-[rgba(110,138,96,0.18)]"
+                    className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-[rgba(110,138,96,0.3)] bg-[rgba(110,138,96,0.12)] px-6 text-base font-semibold text-[var(--green)] transition-colors duration-200 hover:bg-[rgba(110,138,96,0.18)]"
                     href={telegramHref}
                     target="_blank"
                     rel="noreferrer"
                   >
+                    <TelegramIcon className="h-5 w-5" />
                     Telegram
                   </a>
                 ) : null}
