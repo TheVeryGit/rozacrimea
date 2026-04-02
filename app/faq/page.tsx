@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { StickyNav } from "@/app/components/sticky-nav";
 import { SectionHeading } from "@/app/components/site-elements";
 import { createWhatsAppLink, siteContent } from "@/lib/site";
 
@@ -49,9 +50,11 @@ export default function FaqPage() {
   );
 
   return (
-    <main className="px-4 py-4 sm:px-6 sm:py-10 lg:px-8">
-      <div className="mx-auto max-w-6xl space-y-8 sm:space-y-10">
-        <div className="sticky top-3 z-40 w-fit sm:top-4">
+    <main id="top" className="overflow-x-hidden">
+      <StickyNav />
+
+      <div className="mx-auto max-w-6xl space-y-8 px-4 py-4 sm:space-y-10 sm:px-6 sm:py-10 lg:px-8">
+        <div className="sticky top-20 z-40 w-fit sm:top-24">
           <Link
             href="/"
             className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white/92 px-4 py-3 text-sm font-semibold text-[var(--accent-deep)] shadow-[0_16px_40px_rgba(118,84,63,0.08)] backdrop-blur transition-transform duration-200 hover:-translate-y-0.5 sm:px-5"
@@ -95,7 +98,7 @@ export default function FaqPage() {
                 Остались вопросы?
               </p>
               <h2 className="text-2xl font-semibold tracking-tight text-[var(--foreground)] sm:text-3xl">
-                Напишите нам, и мы быстро всё подскажем
+                Напишите нам, и мы быстро все подскажем
               </h2>
               <p className="text-base leading-7 text-[color:rgba(45,35,27,0.72)]">
                 Уточним свободные даты, условия проживания и поможем

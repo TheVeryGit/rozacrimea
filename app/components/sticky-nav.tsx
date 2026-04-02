@@ -1,13 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { siteContent } from "@/lib/site";
 
 const navItems = [
-  { href: "#apartments", label: "Апартаменты" },
-  { href: "#gallery", label: "Галерея" },
-  { href: "#amenities", label: "Удобства" },
-  { href: "#contacts", label: "Контакты" },
+  { href: "/#apartments", label: "Апартаменты" },
+  { href: "/#gallery", label: "Галерея" },
+  { href: "/#amenities", label: "Удобства" },
+  { href: "/#contacts", label: "Контакты" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 function MenuIcon({ open }: { open: boolean }) {
@@ -33,22 +35,22 @@ export function StickyNav() {
     <header className="sticky top-0 z-50 border-b border-[rgba(229,209,190,0.72)] bg-[rgba(255,249,244,0.82)] backdrop-blur-xl">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="flex min-h-16 items-center justify-between gap-4 py-2">
-          <a
-            href="#top"
+          <Link
+            href="/"
             className="text-sm font-semibold uppercase tracking-[0.24em] text-[var(--accent-deep)]"
           >
             {siteContent.hero.title}
-          </a>
+          </Link>
 
           <nav className="hidden items-center gap-2 md:flex" aria-label="Основная навигация">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 className="rounded-full px-4 py-2 text-sm font-medium text-[var(--foreground)] transition-colors duration-200 hover:bg-white hover:text-[var(--accent-deep)]"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -73,14 +75,14 @@ export function StickyNav() {
             aria-label="Мобильная навигация"
           >
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
                 className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(118,84,63,0.06)] transition-colors duration-200 hover:text-[var(--accent-deep)]"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
         ) : null}
