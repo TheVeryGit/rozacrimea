@@ -1,20 +1,20 @@
 {
   "hero": {
     "title": "Rozacrimea",
-    "subtitle": "Гостевой дом в Золотом Крыму — 1 км от моря",
+    "subtitle": "Гостевой дом в посёлке Золотой Крым",
     "phone": "+7 (977) 714-79-08",
     "whatsapp": "79777147908",
-    "telegram": "@123",
+    "telegram": "@rozacrimea",
     "image": "/images/hero.jpg"
   },
   "apartments": [
     {
-      "name": "Апартаменты «Крутые»",
+      "name": "Апартаменты «Комфорт»",
       "description": "Отдельный этаж, своя терраса со столиком и подвесным креслом. До 3 гостей + возможно дополнительное место.",
       "price": "4500",
       "photos": [
-        "/images/apartments/comfort-terrace.svg",
-        "/images/apartments/comfort-room.svg"
+        "/images/img-20220717-wa0003.jpg",
+        "/images/img-20220717-wa0004.jpg"
       ],
       "amenities": [
         "Кондиционер",
